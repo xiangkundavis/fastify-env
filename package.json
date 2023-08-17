@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@fastify/env": "^4.2.0",
+    "fastify": "^4.21.0"
+  }
+}
