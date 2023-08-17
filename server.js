@@ -15,7 +15,7 @@ const schema = {
     }
 }
 const options = {
-    confKey: 'config', // optional, default: 'config'
+    confKey: 'configfromenv', // optional, default: 'config'
     schema: schema,
     data: process.env, // optional, default: process.env,
     dotenv: true
@@ -24,13 +24,10 @@ fastify
   .register(fastifyEnv, options)
   .ready((err) => {
     if (err) console.error(err)
-    console.log(fastify.config,'after ready fastify.config') // undefined
-    console.log(process.env.port,'after ready  process.env.port') // undefined
-    // console.log(fastify.config) // or fastify[options.confKey]
-    // output: { PORT: 3000 }
+    console.log(fastify.configfromenv,'after ready fastify.config') // { PORT: '4000' } 
   })  
-console.log(fastify.config,'fastify.config') // undefined
-console.log(process.env.port,'process.env.port') // undefined
+console.log(fastify.configfromenv,'fastify.config') // undefined
+console.log(process.env.PORT,'process.env.port') // 4000
 
 // Declare a route
 fastify.get('/', function (request, reply) {
@@ -41,20 +38,12 @@ fastify.get('/', function (request, reply) {
  */
 const start = async () => {
     try {
-      console.log('config', fastify.config) // config undefined
+      console.log('config', fastify.configfromenv) // config undefined
       await fastify.listen({ port: 3000 })
-      console.log('after', fastify.config)  // after { PORT: '3000' }
-
+      console.log('after', fastify.configfromenv)  // after { PORT: '4000' }
     } catch (err) {
       fastify.log.error(err)
       process.exit(1)
     }
   }
 start()
-// Run the server!
-// fastify.listen({ port: 3000 }, function (err, address) {
-//   if (err) {
-//     fastify.log.error(err)
-//     process.exit(1)
-//   }
-// })
